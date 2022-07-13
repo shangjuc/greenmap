@@ -26,7 +26,7 @@ function Navbar(props) {
             setNavIdx('');
         }
     } 
-    const nav_btn_arr = ['Timer', 'LeafletMap'];
+    const nav_btn_arr = ['Timer', 'LeafletMap', 'EcoList'];
     const nav_btn_arr2 = [];
 
     return (
