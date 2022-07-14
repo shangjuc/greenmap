@@ -6,6 +6,11 @@ import "leaflet/dist/leaflet.css";
 
 import './LeafletMap.scss';
 class LeafletMap extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.records = [];
+    }
     componentDidMount() {
         document.title = `Leaflet map`;
         const mymap = L.map("mapid").setView([25.176111, 121.521389], 10);
@@ -36,30 +41,80 @@ class LeafletMap extends React.Component {
             shadowSize: [41, 41]
         });
 
-        const marker = L.marker([25.03418, 121.564517], { icon: blueIcon }).addTo(
-            mymap
-        );
-        L.circle([25.03418, 121.564517], {
-            color: "red",
-            fillColor: "#f03",
-            fillOpacity: 0.5,
-            radius: 10
-        }).addTo(mymap);
+        function getFetchUrl() {
+            let urlStr;
+            // urlStr = 'https://data.epa.gov.tw/api/v2/gis_p_11?api_key=173d3da4-59b6-4ecd-9f0f-014af21b74b8&limit=1000&sort=ImportDate%20desc&format=json';
+            urlStr = 'http://localhost:3000/api/v2/gis_p_11?api_key=173d3da4-59b6-4ecd-9f0f-014af21b74b8&limit=1000&sort=ImportDate%20desc&format=json';
 
-        const marker2 = L.marker([25.176111, 121.521389], { icon: greenIcon }).addTo(
-            mymap
-        );        
-        L.circle([25.176111, 121.521389], {
-            color: "red",
-            fillColor: "#f03",
-            fillOpacity: 0.5,
-            radius: 10
-        }).addTo(mymap);
+            return urlStr;
+        }
 
-        // marker.bindPopup("<b>Taipei 101</b><br>台北101").openPopup();
-        // marker2.bindPopup("<b>大屯山</b><br>1092公尺").openPopup();
-        marker.bindPopup("<b>Taipei 101</b><br>台北101");
-        marker2.bindPopup("<b>大屯山</b><br>1092公尺");
+        
+        async function fetch_data() {
+            try {
+                const records = await fetch(getFetchUrl())
+                    .then(r => r.json())
+                    .then(function (resp) {
+                        let arr = [];
+                        console.log('LFM', resp)
+                        resp.records.forEach((item, idx) => {
+                            item.id = idx + 1;
+                        });
+                        arr = resp.records;
+                        return arr;
+                    });
+                    
+                    add_records_to_map(records)
+            } catch {
+            }
+
+        }
+        fetch_data();
+
+        function add_records_to_map(records){
+
+            records.forEach((item,idx)=>{
+                if (item.county != "臺北市") return;
+
+                let latlng = [];
+                latlng.push(Number(item.lat));
+                latlng.push(Number(item.lng));
+                let marker = L.marker(latlng, { icon: greenIcon }).addTo(mymap);
+                L.circle(latlng, {
+                    color: "red",
+                    fillColor: "#f03",
+                    fillOpacity: 0.5,
+                    radius: 10
+                }).addTo(mymap);
+                marker.bindPopup(`<b>${item.name}</b>`);
+    
+            })
+        }
+
+
+        // const marker = L.marker([25.03418, 121.564517], { icon: blueIcon }).addTo(mymap);
+        // L.circle([25.03418, 121.564517], {
+        //     color: "red",
+        //     fillColor: "#f03",
+        //     fillOpacity: 0.5,
+        //     radius: 10
+        // }).addTo(mymap);
+        // // marker.bindPopup("<b>Taipei 101</b><br>台北101").openPopup();
+        // marker.bindPopup("<b>Taipei 101</b><br>台北101");
+
+
+        // const marker2 = L.marker([25.176111, 121.521389], { icon: greenIcon }).addTo(
+        //     mymap
+        // );        
+        // L.circle([25.176111, 121.521389], {
+        //     color: "red",
+        //     fillColor: "#f03",
+        //     fillOpacity: 0.5,
+        //     radius: 10
+        // }).addTo(mymap);
+
+        // // marker2.bindPopup("<b>大屯山</b><br>1092公尺").openPopup();
+        // marker2.bindPopup("<b>大屯山</b><br>1092公尺");
 
     }
 
