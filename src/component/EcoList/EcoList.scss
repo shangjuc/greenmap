@@ -1,3 +1,32 @@
-h1{
-    color: #fff;
+div.ecolist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    h1{
+        width: 100%;
+        color: #fff;
+    }
+    
+    div.ecolist-container{
+
+        ul.ecolist-ul{
+            // width: 800px;
+            li {
+                width: 100%;
+                display: flex;
+                list-style: none;
+                color: #FFF;
+                div.fix{
+                    width: 50px;
+                }
+                div.fix2{
+                    width: 300px;
+                }
+                div.grow{
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
 }
