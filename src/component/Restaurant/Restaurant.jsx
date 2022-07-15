@@ -17,7 +17,9 @@ function Restaurant(props) {
         
         async function fetch_data() {
             const records = await api_service.fetchData('restaurant')
-            .then()
+            .then(data=>{
+                return data.records
+            })
             setData(records)
         }
         fetch_data();
@@ -33,9 +35,15 @@ function Restaurant(props) {
 
                 <div className="restaurant-list-container">
                     <ul className='restaurant-list-ul'>
+                        <li>
+                            <div className='serialnumber fix'>序號</div>
+                            <div className='county fix'>縣市</div>
+                            <div className='name fix2'>名稱</div>
+                            <div className='address grow'>地址</div>
+                        </li>
                         {data.map(item =>
                             <li key={item.serialnumber}>
-                                <div className='id fix'>{item.serialnumber}</div>
+                                <div className='serialnumber fix'>{item.serialnumber}</div>
                                 <div className='county fix'>{item.county}</div>
                                 <div className='name fix2'>{item.name}</div>
                                 <div className='address grow'>{item.address}</div>

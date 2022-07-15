@@ -1,40 +1,46 @@
 const api_service = {}
 
-api_service.getFetchUrl = function(type) {
+api_service.getFetchUrl = function (type = 'restaurant') {
     let urlStr;
-    let urlHost = window.location.host;
-    console.log(window.location)
-
-    if(type === 'restaurant'){
-        urlStr = 'https://data.epa.gov.tw/api/v2/gis_p_11?api_key=173d3da4-59b6-4ecd-9f0f-014af21b74b8&limit=1000&sort=ImportDate%20desc&format=json';
-        if(urlHost.includes('localhost')){
-            urlStr = 'http://localhost:3000/api/v2/gis_p_11?limit=1000&sort=ImportDate%20desc&format=json';
-        } 
+    // console.log(window.location)
+    if (type === 'restaurant') {
+        urlStr = 'https://data.epa.gov.tw/api/v2/gis_p_11';
+        if (window.location.host.includes('localhost')) {
+            urlStr = 'http://localhost:3000/api/v2/gis_p_11';
+        }
     }
 
     return urlStr;
 }
 
-api_service.fetchData = async function(type = 'restaurant') {
+api_service.fetchData = async function (type = 'restaurant') {
     let data;
+    let params = {
+        api_key: "173d3da4-59b6-4ecd-9f0f-014af21b74b8",
+        limit: 1000,
+        sort: 'ImportDate desc',
+        format: "json",
+        offset: 990
+    }
+
     if (type === 'restaurant') {
-        let restaurant_list = require('./restaurant_list.json');
-        // console.log(restaurant_list)
-        try {
-            const records = await fetch(api_service.getFetchUrl(type))
-                .then(r => r.json())
+        let static_data = require('./restaurant_list.json');
+        
+        try { 
+            const dynamic_data = await fetch( api_service.getFetchUrl(type) + "?" + new URLSearchParams(params), {
+                method: 'GET',
+
+            }).then(r => r.json())
                 .then(function (resp) {
-                    let arr = [];
                     console.log(resp)
                     resp.records.forEach((item, idx) => {
                         item.id = idx + 1;
                     });
-                    arr = resp.records;
-                    return arr;
+                    return resp;
                 });
-            return records
+            return dynamic_data
         } catch {
-            return restaurant_list.records;
+            return static_data;
         }
     }
 

@@ -12,11 +12,11 @@ class LeafletMap extends React.Component {
     }
     componentDidMount() {
         document.title = `Leaflet map`;
-        const mymap = L.map("mapid").setView([25.176111, 121.521389], 10);
+        const myMap = L.map("mapid").setView([25.176111, 121.521389], 10);
 
         const OSMUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
-        L.tileLayer(OSMUrl).addTo(mymap);
+        L.tileLayer(OSMUrl).addTo(myMap);
 
         // 使用 leaflet-color-markers ( https://github.com/pointhi/leaflet-color-markers ) 當作 marker
         const greenIcon = new L.Icon({
@@ -43,7 +43,9 @@ class LeafletMap extends React.Component {
 
         async function fetch_data() {
             const records = await api_service.fetchData('restaurant')
-                .then()
+                .then(data=>{
+                    return data.records
+                })
             add_records_to_map(records)
         }
         fetch_data();
@@ -51,48 +53,22 @@ class LeafletMap extends React.Component {
         function add_records_to_map(records){
 
             records.forEach((item,idx)=>{
-                if (item.county != "臺北市") return;
+                if (item.county !== "臺北市") return;
 
-                let latlng = [];
-                latlng.push(Number(item.lat));
-                latlng.push(Number(item.lng));
-                let marker = L.marker(latlng, { icon: greenIcon }).addTo(mymap);
-                L.circle(latlng, {
+                let lat_lng = [];
+                lat_lng.push(Number(item.lat));
+                lat_lng.push(Number(item.lng));
+                let marker = L.marker(lat_lng, { icon: greenIcon }).addTo(myMap);
+                L.circle(lat_lng, {
                     color: "red",
                     fillColor: "#f03",
                     fillOpacity: 0.5,
                     radius: 10
-                }).addTo(mymap);
+                }).addTo(myMap);
                 marker.bindPopup(`<b>${item.name}</b>`);
     
             })
         }
-
-
-        // const marker = L.marker([25.03418, 121.564517], { icon: blueIcon }).addTo(mymap);
-        // L.circle([25.03418, 121.564517], {
-        //     color: "red",
-        //     fillColor: "#f03",
-        //     fillOpacity: 0.5,
-        //     radius: 10
-        // }).addTo(mymap);
-        // // marker.bindPopup("<b>Taipei 101</b><br>台北101").openPopup();
-        // marker.bindPopup("<b>Taipei 101</b><br>台北101");
-
-
-        // const marker2 = L.marker([25.176111, 121.521389], { icon: greenIcon }).addTo(
-        //     mymap
-        // );        
-        // L.circle([25.176111, 121.521389], {
-        //     color: "red",
-        //     fillColor: "#f03",
-        //     fillOpacity: 0.5,
-        //     radius: 10
-        // }).addTo(mymap);
-
-        // // marker2.bindPopup("<b>大屯山</b><br>1092公尺").openPopup();
-        // marker2.bindPopup("<b>大屯山</b><br>1092公尺");
-
     }
 
     render() {

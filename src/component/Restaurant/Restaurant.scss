@@ -11,14 +11,19 @@ div.restaurant-list {
     div.restaurant-list-container{
 
         ul.restaurant-list-ul{
-            // width: 800px;
+            min-width: 800px;
             li {
                 width: 100%;
                 display: flex;
                 list-style: none;
                 color: #FFF;
+                div{
+                    box-sizing: border-box;
+                    padding: 10px;
+                    text-align: left;
+                }
                 div.fix{
-                    width: 50px;
+                    width: 80px;
                 }
                 div.fix2{
                     width: 300px;
