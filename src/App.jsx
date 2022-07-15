@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from './component/Navbar/Navbar.jsx';
 import Timer from './component/Timer/Timer.jsx';
-import EcoList from './component/EcoList/EcoList.jsx';
+import Restaurant from './component/Restaurant/Restaurant.jsx';
 import LeafletMap from './component/LeafletMap/LeafletMap.jsx';
 import './App.scss';
 
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Timer />} />
         <Route path="/Timer" element={<Timer />} />
-        <Route path="/EcoList" element={<EcoList />} />
+        <Route path="/Restaurant" element={<Restaurant />} />
         <Route path="/LeafletMap" element={<LeafletMap />} />
       </Routes>
     </div>

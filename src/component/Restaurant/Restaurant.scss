@@ -1,4 +1,4 @@
-div.ecolist {
+div.restaurant-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -8,9 +8,9 @@ div.ecolist {
         color: #fff;
     }
     
-    div.ecolist-container{
+    div.restaurant-list-container{
 
-        ul.ecolist-ul{
+        ul.restaurant-list-ul{
             // width: 800px;
             li {
                 width: 100%;

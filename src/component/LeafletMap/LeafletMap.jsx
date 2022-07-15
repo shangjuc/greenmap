@@ -1,9 +1,8 @@
-
 import React from "react";
-import { useEffect } from 'react';
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import api_service from '../../service/service';
 
+import "leaflet/dist/leaflet.css";
 import './LeafletMap.scss';
 class LeafletMap extends React.Component {
 
@@ -41,33 +40,11 @@ class LeafletMap extends React.Component {
             shadowSize: [41, 41]
         });
 
-        function getFetchUrl() {
-            let urlStr;
-            // urlStr = 'https://data.epa.gov.tw/api/v2/gis_p_11?api_key=173d3da4-59b6-4ecd-9f0f-014af21b74b8&limit=1000&sort=ImportDate%20desc&format=json';
-            urlStr = 'http://localhost:3000/api/v2/gis_p_11?api_key=173d3da4-59b6-4ecd-9f0f-014af21b74b8&limit=1000&sort=ImportDate%20desc&format=json';
 
-            return urlStr;
-        }
-
-        
         async function fetch_data() {
-            try {
-                const records = await fetch(getFetchUrl())
-                    .then(r => r.json())
-                    .then(function (resp) {
-                        let arr = [];
-                        console.log('LFM', resp)
-                        resp.records.forEach((item, idx) => {
-                            item.id = idx + 1;
-                        });
-                        arr = resp.records;
-                        return arr;
-                    });
-                    
-                    add_records_to_map(records)
-            } catch {
-            }
-
+            const records = await api_service.fetchData('restaurant')
+                .then()
+            add_records_to_map(records)
         }
         fetch_data();
 
