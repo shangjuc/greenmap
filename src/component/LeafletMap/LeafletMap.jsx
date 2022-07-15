@@ -19,27 +19,19 @@ class LeafletMap extends React.Component {
         L.tileLayer(OSMUrl).addTo(myMap);
 
         // 使用 leaflet-color-markers ( https://github.com/pointhi/leaflet-color-markers ) 當作 marker
-        const greenIcon = new L.Icon({
-            iconUrl:
-                "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-            shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-        const blueIcon = new L.Icon({
-            iconUrl:
-                "https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-            shadowUrl:
-                "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-
+        
+        function colorIcon(color = 'green'){
+            return new L.Icon({
+                iconUrl:
+                    `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+                shadowUrl:
+                    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+        }
 
         async function fetch_data() {
             const records = await api_service.fetchData('restaurant')
@@ -58,7 +50,7 @@ class LeafletMap extends React.Component {
                 let lat_lng = [];
                 lat_lng.push(Number(item.lat));
                 lat_lng.push(Number(item.lng));
-                let marker = L.marker(lat_lng, { icon: greenIcon }).addTo(myMap);
+                let marker = L.marker(lat_lng, { icon: colorIcon('green') }).addTo(myMap);
                 L.circle(lat_lng, {
                     color: "red",
                     fillColor: "#f03",
