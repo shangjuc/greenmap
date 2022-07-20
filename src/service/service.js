@@ -32,7 +32,7 @@ api_service.fetchData = async function (type = 'restaurant') {
 
             }).then(r => r.json())
                 .then(function (resp) {
-                    console.log(resp)
+                    // console.log(resp)
                     resp.records.forEach((item, idx) => {
                         item.id = idx + 1;
                     });
