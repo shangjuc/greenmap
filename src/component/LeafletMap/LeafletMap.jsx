@@ -14,13 +14,13 @@ class LeafletMap extends React.Component {
             countyList: ["新北市", "臺北市"]
         }
     }
-    county = "臺北市";
+    countyNow = "臺北市";
     // countyList = ["新北市", "臺北市"]
     
     componentDidMount() {
         let self = this
         document.title = `Leaflet map`;
-        self.myMap = L.map("mapid");
+        self.myMap = L.map("g-r-map");
         self.fetchData();
         // self.drawMap("新北市");
         self.drawMap("臺北市");
@@ -49,7 +49,7 @@ class LeafletMap extends React.Component {
         // self.setState((state, props) => {
         //     return { county: county };
         // });
-        self.county = county;
+        self.countyNow = county;
         self.myMap.setView([25.017583090887207, 121.53981656206982], 10);
         
         const OSMUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -101,7 +101,7 @@ class LeafletMap extends React.Component {
         remove_child('.leaflet-pane.leaflet-shadow-pane')
 
         // 依照counter篩選資料
-        let filtered = records.filter(item => item.county === self.county);
+        let filtered = records.filter(item => item.county === self.countyNow);
         filtered.forEach((item, idx) => {
             let lat_lng = [];
             lat_lng.push(Number(item.lat));
@@ -112,8 +112,16 @@ class LeafletMap extends React.Component {
                 self.myMap.setView(lat_lng, 10);
             }
 
+            // let googleMapUrl = "https://www.google.com.tw/maps/@25.0385811,121.5793147,16.54z?hl=zh-TW";
+            // let googleMapUrl = `https://www.google.com.tw/maps/@${item.lat},${item.lng},16.54z?hl=zh-TW`;
+            let googleMapUrl = `https://www.google.com.tw/maps/search/${item.name}/@${item.lat},${item.lng},16.54z?hl=zh-TW`;
             let marker = L.marker(lat_lng, { icon: colorIcon('green') }).addTo(self.myMap);
-            marker.bindPopup(`<b>${item.name}</b>`);
+            marker.bindPopup(`
+            <b>${item.name}</b>
+            <br>
+            在<a href="${googleMapUrl}" target="_blank">GoogleMap</a>開啟
+            `);
+
 
             // L.circle(lat_lng, {
             //     color: "green",
@@ -130,6 +138,9 @@ class LeafletMap extends React.Component {
         // 設定 height 顯示地圖 ( 預設值 height : 0 )
         return (
             <div className="map-section">
+                <div className="title-container">
+                    <h1>綠色餐廳地圖</h1>
+                </div>
                 <div className="btn-container">
 
                     {this.state.countyList.map(item => {
@@ -139,7 +150,7 @@ class LeafletMap extends React.Component {
                     {/* <button onClick={this.drawMap}>臺北市</button> */}
                 </div>
                 <div className="map-container">
-                    <div id="mapid" style={{ minHeight: "500px" }} />
+                    <div id="g-r-map" style={{ minHeight: "500px" }} />
                 </div>
             </div>
 
