@@ -10,11 +10,12 @@ class LeafletMap extends React.Component {
         super(props);
         this.state = {
             records: [],
+            county: "臺北市",
             countyList: ["新北市", "臺北市"]
         }
     }
-    county = "臺北市";
-    countyList = ["新北市", "臺北市"]
+    // county = "臺北市";
+    // countyList = ["新北市", "臺北市"]
     
     componentDidMount() {
         let self = this
@@ -45,18 +46,14 @@ class LeafletMap extends React.Component {
 
     drawMap(county = "臺北市") {
         let self = this
-        console.log("drawMap this")
-        self.county = county;
-        // self.myMap.setView([25.176111, 121.521389], 12);
+        self.setState((state, props) => {
+            return { county: county };
+        });
         self.myMap.setView([25.017583090887207, 121.53981656206982], 10);
         
         const OSMUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
         L.tileLayer(OSMUrl).addTo(self.myMap);
         self.add_records_to_map(self.state.records);
-
-
-        // 使用 leaflet-color-markers ( https://github.com/pointhi/leaflet-color-markers ) 當作 marker
-
     }
 
     add_records_to_btn(records){
@@ -77,6 +74,8 @@ class LeafletMap extends React.Component {
     }
     add_records_to_map(records) {
         let self = this;
+
+        // 使用 leaflet-color-markers ( https://github.com/pointhi/leaflet-color-markers ) 當作 marker
         function colorIcon(color = 'green') {
             return new L.Icon({
                 iconUrl:
@@ -89,6 +88,8 @@ class LeafletMap extends React.Component {
                 shadowSize: [41, 41]
             });
         }
+
+        // 清掉所有舊的markers
         function remove_child(className){
             const item = document.querySelector(className)
             while (item.firstChild) {
@@ -98,13 +99,9 @@ class LeafletMap extends React.Component {
         remove_child('.leaflet-pane.leaflet-marker-pane')
         remove_child('.leaflet-pane.leaflet-shadow-pane')
 
-        let filtered = records.filter(item => item.county === self.county);
-
+        // 依照counter篩選資料
+        let filtered = records.filter(item => item.county === self.state.county);
         filtered.forEach((item, idx) => {
-            // if (item.county !== "臺北市") return;
-            // console.log(self)
-            // if (item.county !== self.county) return;
-
             let lat_lng = [];
             lat_lng.push(Number(item.lat));
             lat_lng.push(Number(item.lng));
@@ -115,13 +112,14 @@ class LeafletMap extends React.Component {
             }
 
             let marker = L.marker(lat_lng, { icon: colorIcon('green') }).addTo(self.myMap);
+            marker.bindPopup(`<b>${item.name}</b>`);
+
             // L.circle(lat_lng, {
             //     color: "green",
             //     fillColor: "lightgreen",
             //     fillOpacity: 0.5,
             //     radius: 5
             // }).addTo(self.myMap);
-            marker.bindPopup(`<b>${item.name}</b>`);
 
         })
     }
