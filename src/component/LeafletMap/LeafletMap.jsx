@@ -10,11 +10,11 @@ class LeafletMap extends React.Component {
         super(props);
         this.state = {
             records: [],
-            county: "臺北市",
+            // county: "臺北市",
             countyList: ["新北市", "臺北市"]
         }
     }
-    // county = "臺北市";
+    county = "臺北市";
     // countyList = ["新北市", "臺北市"]
     
     componentDidMount() {
@@ -46,9 +46,10 @@ class LeafletMap extends React.Component {
 
     drawMap(county = "臺北市") {
         let self = this
-        self.setState((state, props) => {
-            return { county: county };
-        });
+        // self.setState((state, props) => {
+        //     return { county: county };
+        // });
+        self.county = county;
         self.myMap.setView([25.017583090887207, 121.53981656206982], 10);
         
         const OSMUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -100,7 +101,7 @@ class LeafletMap extends React.Component {
         remove_child('.leaflet-pane.leaflet-shadow-pane')
 
         // 依照counter篩選資料
-        let filtered = records.filter(item => item.county === self.state.county);
+        let filtered = records.filter(item => item.county === self.county);
         filtered.forEach((item, idx) => {
             let lat_lng = [];
             lat_lng.push(Number(item.lat));
