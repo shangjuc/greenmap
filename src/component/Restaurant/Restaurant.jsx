@@ -16,7 +16,7 @@ function Restaurant(props) {
     useEffect(() => {
         
         async function fetch_data() {
-            const records = await api_service.fetchData('restaurant')
+            const records = await api_service.fetchData('restaurant',0)
             .then(data=>{
                 return data.records
             })

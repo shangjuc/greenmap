@@ -13,31 +13,31 @@ api_service.getFetchUrl = function (type = 'restaurant') {
     return urlStr;
 }
 
-api_service.fetchData = async function (type = 'restaurant') {
+api_service.fetchData = async function (type = 'restaurant', offset = 0) {
     let data;
     let params = {
         api_key: "173d3da4-59b6-4ecd-9f0f-014af21b74b8",
         limit: 1000,
         sort: 'ImportDate desc',
         format: "json",
-        offset: 990
+        offset: offset
     }
 
     if (type === 'restaurant') {
         let static_data = require('./restaurant_list.json');
-        
-        try { 
-            const dynamic_data = await fetch( api_service.getFetchUrl(type) + "?" + new URLSearchParams(params), {
+        let url = api_service.getFetchUrl(type) + "?" + new URLSearchParams(params);
+        try {
+            const dynamic_data = await fetch(url, {
                 method: 'GET',
-
-            }).then(r => r.json())
-                .then(function (resp) {
-                    // console.log(resp)
-                    resp.records.forEach((item, idx) => {
-                        item.id = idx + 1;
-                    });
-                    return resp;
+            })
+            .then(r => r.json())
+            .then(function (resp) {
+                // console.log(resp)
+                resp.records.forEach((item, idx) => {
+                    item.id = idx + 1;
                 });
+                return resp;
+            });
             return dynamic_data
         } catch {
             return static_data;
