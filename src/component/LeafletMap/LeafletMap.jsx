@@ -108,7 +108,7 @@ class LeafletMap extends React.Component {
             lat_lng.push(Number(item.lng));
 
             // console.log(idx,lat_lng)
-            if(idx === 1){
+            if(idx === 0){
                 self.myMap.setView(lat_lng, 10);
             }
 
