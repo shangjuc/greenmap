@@ -69,7 +69,7 @@ function Restaurant(props) {
                 <div className="container restaurant-list-container">
                     {netStatus === 1 ? <span>Loading...</span> : null}
                     {netStatus === 200 ? <ul className='restaurant-list-ul'>
-                        <li>
+                        <li className="list-header">
                             <div className='serialnumber fix'>序號</div>
                             <div className='county fix'>縣市</div>
                             <div className='name fix2'>名稱</div>

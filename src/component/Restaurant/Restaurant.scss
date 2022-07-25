@@ -7,7 +7,7 @@ div.restaurant-list {
     .container {
         width: 100%;
     }
-    .title-container{
+    .title-container {
         display: flex;
         // justify-content: start;
         justify-content: center;
@@ -18,8 +18,8 @@ div.restaurant-list {
         width: 100%;
         min-width: 300px;
         padding: 20px 20px;
-        h1{
-            color: #FFF;
+        h1 {
+            color: #fff;
             margin: 10px 0px;
         }
     }
@@ -32,7 +32,15 @@ div.restaurant-list {
         ul.restaurant-list-ul {
             min-width: 800px;
             max-width: 800px;
+            max-height: 400px;
+            overflow: auto;
             li {
+                &.list-header {
+                    position: sticky;
+                    top: 0px;
+                    background: #fff;
+                    color: #000;
+                }
                 width: 100%;
                 display: flex;
                 list-style: none;
@@ -54,14 +62,14 @@ div.restaurant-list {
             }
         }
     }
-    .page-btn-container{
-        button{
+    .page-btn-container {
+        button {
             background-color: transparent;
-            color: #FFF;
-            border: 1px solid #FFF;
+            color: #fff;
+            border: 1px solid #fff;
             cursor: pointer;
-            &.active{
-                background-color: #FFF;
+            &.active {
+                background-color: #fff;
                 color: #000;
                 cursor: inherit;
             }
