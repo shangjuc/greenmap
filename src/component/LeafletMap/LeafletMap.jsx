@@ -11,7 +11,9 @@ class LeafletMap extends React.Component {
         this.state = {
             records: [],
             // county: "臺北市",
-            countyList: ["新北市", "臺北市"]
+            // countyList: ["新北市", "臺北市"],
+            countyList: [],
+            netStatus: 0
         }
     }
     countyNow = "臺北市";
@@ -21,27 +23,39 @@ class LeafletMap extends React.Component {
         let self = this
         document.title = `Leaflet map`;
         self.myMap = L.map("g-r-map");
-        self.fetchData();
-        // self.drawMap("新北市");
         self.drawMap("臺北市");
-
+        self.fetchData()
+        .then(records=>{
+            console.log(records)
+            self.add_records_to_btn(records);
+            self.add_records_to_map(records);
+            self.setState(() => {
+                return { 
+                    records: records,
+                    netStatus: 200,
+                };
+            });
+        })
+        // self.drawMap("新北市");
+        
     }
     
-    fetchData(){
+    async fetchData(){
         let self = this
-        async function fetch_data() {
+        self.setState(()=>{
+            return {netStatus: 1};
+        });
+        try{
             const records = await api_service.fetchData('restaurant')
                 .then(data => {
                     return data.records
                 })
-            self.setState((state, props) => {
-                return { records: records };
-            });
-            self.add_records_to_btn(records);
-            self.add_records_to_map(records);
+            return records
 
+        }catch(error){
+            throw error
         }
-        fetch_data();
+
     }
 
     drawMap(county = "臺北市") {
@@ -65,7 +79,7 @@ class LeafletMap extends React.Component {
             if ( !countyList.includes(item.county)){
                 countyList.push(item.county);
             };
-            self.setState((state, props) => {
+            self.setState(() => {
                 return { countyList: countyList };
             });
             // console.log(self.state.countyList)
@@ -141,14 +155,20 @@ class LeafletMap extends React.Component {
                 <div className="title-container">
                     <h1>綠色餐廳地圖</h1>
                 </div>
-                <div className="btn-container">
+
+                {this.state.netStatus === 1 ? <div className="btn-container"><span>Loading...</span></div>: null}
+                
+                {this.state.netStatus === 200 ? <div className="btn-container">
 
                     {this.state.countyList.map(item => {
                         return <button key={item} value={item} onClick={() => this.drawMap(item)}>{item}</button>
                     })}
 
                     {/* <button onClick={this.drawMap}>臺北市</button> */}
-                </div>
+                </div> : null}
+
+                
+
                 <div className="map-container">
                     <div id="g-r-map" style={{ minHeight: "500px" }} />
                 </div>

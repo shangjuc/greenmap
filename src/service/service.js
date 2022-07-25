@@ -6,7 +6,7 @@ const getFetchUrl = function (type = 'restaurant') {
     if (type === 'restaurant') {
         urlStr = 'https://data.epa.gov.tw/api/v2/gis_p_11';
         if (window.location.host.includes('localhost')) {
-            // urlStr = 'http://localhost:3000/api/v2/gis_p_11';
+            urlStr = 'http://localhost:3000/api/v2/gis_p_11';
         }
     }
 

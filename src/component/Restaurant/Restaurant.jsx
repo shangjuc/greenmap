@@ -57,7 +57,7 @@ function Restaurant(props) {
                     
                 </div> */}
                 <div className="container page-btn-container">
-                    {pages.map(item => <button key={item} className={offset === item * 100 ? "active" : ""} onClick={() => setOffset(item * 100)}>{item * 100 + 1}~{item * 100 + 100}</button>)}
+                    {pages.map(item => <button key={item} className={offset === item * 100 ? "active" : ""} onClick={() => setOffset(item * 100)}>{item + 1}</button>)}
                     {/* <button onClick={()=>setOffset(0)}>1~100</button>
                     <button onClick={()=>setOffset(100)}>101~200</button>
                     <button onClick={()=>setOffset(200)}>201~300</button> */}
