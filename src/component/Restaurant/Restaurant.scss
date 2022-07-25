@@ -7,9 +7,21 @@ div.restaurant-list {
     .container {
         width: 100%;
     }
-    h1 {
+    .title-container{
+        display: flex;
+        // justify-content: start;
+        justify-content: center;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 30px;
+        max-width: 1200px;
         width: 100%;
-        color: #fff;
+        min-width: 300px;
+        padding: 20px 20px;
+        h1{
+            color: #FFF;
+            margin: 10px 0px;
+        }
     }
 
     div.restaurant-list-container {

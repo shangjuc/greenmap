@@ -23,8 +23,8 @@ class LeafletMap extends React.Component {
         let self = this
         document.title = `Leaflet map`;
         self.myMap = L.map("g-r-map");
-        self.drawMap("臺北市");
-        self.fetchData()
+        self.draw_map("臺北市");
+        self.fetch_data()
         .then(records=>{
             console.log(records)
             self.add_records_to_btn(records);
@@ -36,11 +36,11 @@ class LeafletMap extends React.Component {
                 };
             });
         })
-        // self.drawMap("新北市");
+        // self.draw_map("新北市");
         
     }
     
-    async fetchData(){
+    async fetch_data(){
         let self = this
         self.setState(()=>{
             return {netStatus: 1};
@@ -58,7 +58,7 @@ class LeafletMap extends React.Component {
 
     }
 
-    drawMap(county = "臺北市") {
+    draw_map(county = "臺北市") {
         let self = this
         // self.setState((state, props) => {
         //     return { county: county };
@@ -161,10 +161,10 @@ class LeafletMap extends React.Component {
                 {this.state.netStatus === 200 ? <div className="btn-container">
 
                     {this.state.countyList.map(item => {
-                        return <button key={item} value={item} onClick={() => this.drawMap(item)}>{item}</button>
+                        return <button key={item} value={item} onClick={() => this.draw_map(item)}>{item}</button>
                     })}
 
-                    {/* <button onClick={this.drawMap}>臺北市</button> */}
+                    {/* <button onClick={this.draw_map}>臺北市</button> */}
                 </div> : null}
 
                 

@@ -40,7 +40,8 @@ api_service.fetchData = async function (type = 'restaurant', offset = 0, limit =
                 return resp;
             });
             return dynamic_data
-        } catch {
+        } catch(err) {
+            console.log(err)
             return static_data;
         }
     }

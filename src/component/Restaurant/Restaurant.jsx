@@ -34,7 +34,7 @@ function Restaurant(props) {
             for ( let i = 0; i < Math.floor(+resp.total / 100) + 1; i++){
                 pages.push(i);
             }
-            console.log(pages)
+            // console.log(pages)
             setPages(pages);
 
         }
@@ -49,7 +49,10 @@ function Restaurant(props) {
     if (true) {
         return (
             <div className='restaurant-list'>
-                <h1>Restaurant</h1>
+                <div className="title-container">
+                    <h1>綠色餐廳列表</h1>
+                </div>
+
                 {/* <div className="container net-status-container">
                     {netStatus === 1 ? <span>Loading...</span> : null}
                     {netStatus === 200 ? <span>載入成功</span> : null}
