@@ -8,28 +8,33 @@
     align-items: center;
     padding: 100px 0px;
 
+    $mt1: -368px;
+    $mt2: -4150px;
+
     .iframe-container {
         width: 100%;
         height: 600px;
         // overflow: auto;
         overflow: hidden;
         iframe {
-            margin-top: -330px;
-            animation: slide infinite 60s ;
+            margin-top: $mt1;
+            margin-top: $mt2;
+            animation: slide infinite 30s ;
+            animation-timing-function: linear;
         }
     }
     @keyframes slide {
         0% {
-            margin-top: -330px;
+            margin-top: $mt1;
         }
         5% {
-            margin-top: -330px;
+            margin-top: $mt1;
         }
         95% {
-            margin-top: -4250px;
+            margin-top: $mt2;
         }
         100% {
-            margin-top: -4250px;
+            margin-top: $mt2;
         }
     }
 }
