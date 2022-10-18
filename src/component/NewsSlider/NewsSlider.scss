@@ -15,14 +15,14 @@
         overflow: hidden;
         iframe {
             margin-top: -330px;
-            animation: slide infinite 30s ;
+            animation: slide infinite 60s ;
         }
     }
     @keyframes slide {
         0% {
             margin-top: -330px;
         }
-        10% {
+        5% {
             margin-top: -330px;
         }
         95% {
